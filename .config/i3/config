@@ -153,19 +153,10 @@ mode "resize" {
 }
 
 # Auto Startup
-exec xrandr --output HDMI-0 --mode 1920x1080 --rate 144
-exec --no-startup-id /usr/bin/vibrantLinux --hidden
 exec --no-startup-id nitrogen --restore
-#exec xcompmgr -r 12.00 -o 0.75 -l -15.0 -t -15.0 -I 0.075 -O 0.075 -f
 exec_always --no-startup-id "sh ~/.config/polybar/launch.sh"
-#exec /home/gorkido/.conky/conky-startup.sh sh conky-startup.sh
-exec /usr/bin/ckb-next --background
 exec --no-startup-id picom --experimental-backend --config ~/.config/picom/picom.conf
-exec --no-startup-id sleep 6 && discord --start-minimized
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-
-# Exclude from all workspaces
-#exec xprop -name "polybar" -f WM_CLASS 8s -set WM_CLASS "override"
 
 # Keyboard
 exec xset r rate 155 27
