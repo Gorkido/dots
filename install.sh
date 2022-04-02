@@ -38,7 +38,7 @@ _pkgs=("zsh" "pcmanfm" "i3-gaps" "polybar" "picom-jonaburg-git" "rofi" "htop" "f
 
 ## Setup OMZ
 setup_omz() {
-	# Backup Previous OMZ
+    # Backup Previous OMZ
 	echo -e ${RED}"\n[*] Setting up OMZ configs..."
 	omz_files=(.oh-my-zsh .zshrc)
 	for file in "${omz_files[@]}"; do
@@ -49,13 +49,15 @@ setup_omz() {
 			echo -e ${MAGENTA}"\n[!] $file Doesn't Exist."			
 		fi
 	done
+
 	# Installing OMZ
 	echo -e ${CYAN}"\n[*] Installing Oh-my-zsh... \n"
 	{ reset_color; git clone https://github.com/robbyrussell/oh-my-zsh.git --depth 1 $HOME/.oh-my-zsh; }
 	cp $HOME/.oh-my-zsh/templates/zshrc.zsh-template $HOME/.zshrc
 	sed -i -e 's/ZSH_THEME=.*/ZSH_THEME="sorin"/g' $HOME/.zshrc
 	sed -i -e 's|# export PATH=.*|export PATH=$HOME/.local/bin:$PATH|g' $HOME/.zshrc
-	# ZSH theme
+	
+	# ZSH Theme
 	cat > $HOME/.oh-my-zsh/custom/themes/sorin.zsh-theme <<- _EOF_
 		# Default OMZ theme
 
@@ -77,11 +79,23 @@ setup_omz() {
 		neofetch
 	_EOF_
 
+    # Made ZSH the default
 	chsh -s /bin/zsh $username
 }
 
 # Configuration
 setup_config() {
+    # Installing Packages
+    for package in "${_pkgs[@]}"; do
+		{ reset_color; }
+	    if [[ "$(which $package)" == "" ]]; then
+            echo -e ${GREEN}"\n[*] Installing Package ${ORANGE}$package \n"
+			yay -S --noconfirm $package
+        else
+            echo "${ORANGE}$package Already Installed"
+		fi
+	done
+
     # Backup
 	conff=(.oh-my-zsh .zshrc .icons .themes .gtkrc-2.0)
 	for file in "${conff[@]}"; do
@@ -93,14 +107,30 @@ setup_config() {
 		fi
 	done
 
-    # Installing Packages
-    for package in "${_pkgs[@]}"; do
-		{ reset_color; }
-	    if [[ "$(which $package)" == "" ]]; then
-            echo -e ${GREEN}"\n[*] Installing Package ${ORANGE}$package \n"
-			yay -S --noconfirm $package
-        else
-            echo "${ORANGE}$package Already Installed"
+    # Delete Files
+	echo -e ${CYAN}"\n[*] Deleting config files...\n"
+	_homefiles=(.icons .gtkrc-2.0 .themes .oh-my-zsh)
+	_configfiles=(pcmanfm gtk-3.0 gtk-2.0 i3 polybar rofi picom neofetch kitty htop)
+	_localfiles=(bin 'share/backgrounds')
+	for i in "${_homefiles[@]}"; do
+		if [[ -f "$HOME/$i" || -d "$HOME/$i" ]]; then
+			{ reset_color; rm -rf $HOME/$i; }
+		else
+			echo -e ${MAGENTA}"\n[!] $file Doesn't Exist.\n"
+		fi
+	done
+	for j in "${_configfiles[@]}"; do
+		if [[ -f "$HOME/.config/$j" || -d "$HOME/.config/$j" ]]; then
+			{ reset_color; rm -rf $HOME/.config/$j; }
+		else
+			echo -e ${MAGENTA}"\n[!] $file Doesn't Exist.\n"			
+		fi
+	done
+	for k in "${_localfiles[@]}"; do
+		if [[ -f "$HOME/.local/$k" || -d "$HOME/.local/$k" ]]; then
+			{ reset_color; rm -rf $HOME/.local/$k; }
+		else
+			echo -e ${MAGENTA}"\n[!] $file Doesn't Exist.\n"			
 		fi
 	done
 
@@ -171,7 +201,7 @@ post_msg() {
 }
 
 # Uninstall Gorkido Dots
-uninstall_td() {
+uninstall() {
 	# remove pkgs
 	echo -e ${RED}"\n[*] Unistalling Gorkido Dots..."
 	for package in "${_pkgs[@]}"; do
@@ -181,7 +211,7 @@ uninstall_td() {
 	
 	# Delete Files
 	echo -e ${CYAN}"\n[*] Deleting config files...\n"
-	_homefiles=(.fehbg .icons .mpd .ncmpcpp .fonts .gtkrc-2.0 .mutt .themes .oh-my-zsh)
+	_homefiles=(.icons .gtkrc-2.0 .themes .oh-my-zsh)
 	_configfiles=(pcmanfm gtk-3.0 gtk-2.0 i3 polybar rofi picom neofetch kitty htop)
 	_localfiles=(bin 'share/backgrounds')
 	for i in "${_homefiles[@]}"; do
@@ -220,7 +250,7 @@ OBS_Virtual_Cam() {
 }
 
 ## Install Gorkido Dots
-install_td() {
+install() {
 	setup_config
     setup_omz
 	OBS_Virtual_Cam
@@ -229,9 +259,9 @@ install_td() {
 
 ## Main
 if [[ "$1" == "--install" ]]; then
-	install_td
+	install
 elif [[ "$1" == "--uninstall" ]]; then
-	uninstall_td
+	uninstall
 else
 	{ usage; reset_color; exit 0; }
 fi
