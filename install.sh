@@ -97,11 +97,11 @@ setup_config() {
 	done
 
     # Backup
-	conff=(.oh-my-zsh .zshrc .icons .themes .gtkrc-2.0)
+	conff=(.oh-my-zsh .zshrc .icons .themes .gtkrc-2.0 .config)
 	for file in "${conff[@]}"; do
 		echo -e ${CYAN}"\n[*] Backing up $file..."
 		if [[ -f "$HOME/$file" || -d "$HOME/$file" ]]; then
-			{ reset_color; mkdir $HOME/Config\ Backups; mv $file $HOME/Config\ Backups/; }
+			{ reset_color; mkdir $HOME/Config\ Backups; mv $HOME/$file $HOME/Config\ Backups/; }
 		else
 			echo -e ${MAGENTA}"\n[!] $file Doesn't Exist."			
 		fi
