@@ -156,7 +156,7 @@ mode "resize" {
 exec --no-startup-id nitrogen --restore
 exec_always --no-startup-id "sh ~/.config/polybar/launch.sh"
 exec --no-startup-id picom --experimental-backend --config ~/.config/picom/picom.conf
-exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+#exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 # Keyboard
 exec xset r rate 155 27
