@@ -97,23 +97,24 @@ setup_config() {
     mkdir $HOME/.config/nitrogen
 
     cat >> $HOME/.config/nitrogen/bg-saved.cfg <<- _EOF_
-		[xin_-1]
-        file=/home/$username/.local/share/backgrounds/Default.png
-        mode=2
-        bgcolor=#000000
+	[xin_-1]
+    file=/home/$username/.local/share/backgrounds/Default.png
+    mode=2
+    bgcolor=#000000
 	_EOF_
 
 	cat >> $HOME/.config/nitrogen/nitrogen.cfg <<- _EOF_
-        [nitrogen]
-        view=icon
-        recurse=true
-        sort=alpha
-        icon_caps=false
-        dirs=/home/$username/.local/share/backgrounds;/home/$username/.local/share/backgrounds;
+    [nitrogen]
+    view=icon
+    recurse=true
+    sort=alpha
+    icon_caps=false
+    dirs=/home/$username/.local/share/backgrounds;/home/$username/.local/share/backgrounds;
 	_EOF_
     # Setting Wallpaper
 
 	# Copy config files
+	configs=($(ls -A $(pwd)))
 	echo -e ${RED}"\n[*] Copying config files... "
 	for _config in "${configs[@]}"; do
 		echo -e ${CYAN}"\n[*] Copying $_config..."
@@ -124,32 +125,32 @@ setup_config() {
 	sudo cp -r $(pwd)/usr/share/icons/Paper-Mono-Dark /usr/share/icons/
 
 	cat >> $HOME/.gtkrc-2.0 <<- _EOF_
-        include "/home/$username/.gtkrc-2.0.mine"
-        gtk-theme-name="Plata-Blue-Noir-Compact"
-        gtk-icon-theme-name="Paper-Mono-Dark"
-        gtk-font-name="Noto Sans 11"
-        gtk-cursor-theme-name="Adwaita"
-        gtk-cursor-theme-size=14
-        gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
-        gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
-        gtk-button-images=0
-        gtk-menu-images=0
-        gtk-enable-event-sounds=1
-        gtk-enable-input-feedback-sounds=1
-        gtk-xft-antialias=1
-        gtk-xft-hinting=1
-        gtk-xft-hintstyle="hintmedium"
-        gtk-xft-rgba="rgb"
+    include "/home/$username/.gtkrc-2.0.mine"
+    gtk-theme-name="Plata-Blue-Noir-Compact"
+    gtk-icon-theme-name="Paper-Mono-Dark"
+    gtk-font-name="Noto Sans 11"
+    gtk-cursor-theme-name="Adwaita"
+    gtk-cursor-theme-size=14
+    gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+    gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+    gtk-button-images=0
+    gtk-menu-images=0
+    gtk-enable-event-sounds=1
+    gtk-enable-input-feedback-sounds=1
+    gtk-xft-antialias=1
+    gtk-xft-hinting=1
+    gtk-xft-hintstyle="hintmedium"
+    gtk-xft-rgba="rgb"
 	_EOF_
 
     mkdir $HOME/.config/gtk-3.0
 
 	cat >> $HOME/.config/gtk-3.0/bookmarks<<- _EOF_
-        file:///home/$username/Documents Documents
-        file:///home/$username/Music Music
-        file:///home/$username/Videos Videos
-        file:///home/$username/Pictures Pictures
-        file:///home/$username/Downloads Downloads
+    file:///home/$username/Documents Documents
+    file:///home/$username/Music Music
+    file:///home/$username/Videos Videos
+    file:///home/$username/Pictures Pictures
+    file:///home/$username/Downloads Downloads
 	_EOF_
 }
 
