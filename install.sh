@@ -142,6 +142,8 @@ setup_config() {
         gtk-xft-rgba="rgb"
 	_EOF_
 
+    mkdir $HOME/.config/gtk-3.0
+
 	cat >> $HOME/.config/gtk-3.0/bookmarks<<- _EOF_
         file:///home/$username/Documents Documents
         file:///home/$username/Music Music
