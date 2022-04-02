@@ -38,7 +38,7 @@ _pkgs=("zsh" "pcmanfm" "i3-gaps" "polybar" "picom-jonaburg-git" "rofi" "htop" "f
 
 ## Setup OMZ
 setup_omz() {
-	# backup previous
+	# Backup Previous OMZ
 	echo -e ${RED}"\n[*] Setting up OMZ configs..."
 	omz_files=(.oh-my-zsh .zshrc)
 	for file in "${omz_files[@]}"; do
@@ -49,7 +49,7 @@ setup_omz() {
 			echo -e ${MAGENTA}"\n[!] $file Doesn't Exist."			
 		fi
 	done
-	# installing omz
+	# Installing OMZ
 	echo -e ${CYAN}"\n[*] Installing Oh-my-zsh... \n"
 	{ reset_color; git clone https://github.com/robbyrussell/oh-my-zsh.git --depth 1 $HOME/.oh-my-zsh; }
 	cp $HOME/.oh-my-zsh/templates/zshrc.zsh-template $HOME/.zshrc
@@ -80,8 +80,19 @@ setup_omz() {
 	chsh -s /bin/zsh $username
 }
 
-## Configuration
+# Configuration
 setup_config() {
+    # Backup
+	conff=(.oh-my-zsh .zshrc .icons .themes .gtkrc-2.0)
+	for file in "${conff[@]}"; do
+		echo -e ${CYAN}"\n[*] Backing up $file..."
+		if [[ -f "$HOME/$file" || -d "$HOME/$file" ]]; then
+			{ reset_color; mkdir $HOME/Config\ Backups; mv $file $HOME/Config\ Backups/; }
+		else
+			echo -e ${MAGENTA}"\n[!] $file Doesn't Exist."			
+		fi
+	done
+
     # Installing Packages
     for package in "${_pkgs[@]}"; do
 		{ reset_color; }
@@ -111,7 +122,6 @@ setup_config() {
     icon_caps=false
     dirs=/home/$username/.local/share/backgrounds;/home/$username/.local/share/backgrounds;
 	_EOF_
-    # Setting Wallpaper
 
 	# Copy config files
 	configs=($(ls -A $(pwd)))
@@ -154,13 +164,13 @@ setup_config() {
 	_EOF_
 }
 
-## Finish Installation
+# Finish Installation
 post_msg() {
 	echo -e ${GREEN}"\n[*] ${RED}Gorkido Dots ${GREEN}Installed Successfully.\n"
 	{ reset_color; exit 0; }
 }
 
-## Uninstall Gorkido Dots
+# Uninstall Gorkido Dots
 uninstall_td() {
 	# remove pkgs
 	echo -e ${RED}"\n[*] Unistalling Gorkido Dots..."
@@ -169,7 +179,7 @@ uninstall_td() {
 		{ reset_color; yay -Rns --noconfirm $package; }
 	done
 	
-	# delete files
+	# Delete Files
 	echo -e ${CYAN}"\n[*] Deleting config files...\n"
 	_homefiles=(.fehbg .icons .mpd .ncmpcpp .fonts .gtkrc-2.0 .mutt .themes .oh-my-zsh)
 	_configfiles=(pcmanfm gtk-3.0 gtk-2.0 i3 polybar rofi picom neofetch kitty htop)
