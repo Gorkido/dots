@@ -106,7 +106,7 @@ setup_config() {
 			echo -e ${MAGENTA}"\n[!] $file Doesn't Exist."			
 		fi
 	done
-    sleep 3
+    sleep 1
     # Delete Files
 	echo -e ${CYAN}"\n[*] Deleting config files...\n"
 	_homefiles=(.icons .gtkrc-2.0 .themes .oh-my-zsh)
@@ -133,7 +133,7 @@ setup_config() {
 			echo -e ${MAGENTA}"\n[!] $file Doesn't Exist.\n"			
 		fi
 	done
-    sleep 3
+    sleep 1
     # Setting Wallpaper
     mkdir $HOME/.config/nitrogen
 
