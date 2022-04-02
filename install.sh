@@ -141,6 +141,14 @@ setup_config() {
         gtk-xft-hintstyle="hintmedium"
         gtk-xft-rgba="rgb"
 	_EOF_
+
+	cat >> $HOME/.config/gtk-3.0/bookmarks<<- _EOF_
+        file:///home/$username/Documents Documents
+        file:///home/$username/Music Music
+        file:///home/$username/Videos Videos
+        file:///home/$username/Pictures Pictures
+        file:///home/$username/Downloads Downloads
+	_EOF_
 }
 
 ## Finish Installation
