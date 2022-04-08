@@ -34,7 +34,7 @@ usage() {
 }
 
 ## Packages
-_pkgs=("zsh" "pcmanfm" "i3-gaps" "polybar" "picom-jonaburg-git" "rofi" "htop" "flameshot" "kitty" "gnome-system-monitor" "i3lock-fancy-git" "nitrogen" "neofetch" "v4l2loopback-dkms")
+_pkgs=("zsh" "pcmanfm" "i3-gaps" "polybar" "picom-jonaburg-git" "rofi" "htop" "flameshot" "kitty" "gnome-system-monitor" "i3lock-fancy-git" "nitrogen" "neofetch" "v4l2loopback-dkms" "brave-bin" "virtualbox" "zoom" "spotify" )
 
 ## Setup OMZ
 setup_omz() {
