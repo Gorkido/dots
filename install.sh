@@ -197,23 +197,29 @@ file:///home/$username/Downloads Downloads
     response=${response,,} # tolower
     if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
         
-		# Lighdm Theme pkgs
+		# Lightdm Theme pkgs
         sudo pacman -S --noconfirm lightdm-webkit2-greeter lightdm-webkit-theme-litarvan
 
 	    # Lightdm Theme
         sudo sed -i 's/^greeter-session=.*$/greeter-session=lightdm-webkit2-greeter/' /etc/lightdm/lightdm.conf
         sudo sed -i 's/^webkit_theme        = .*$/webkit_theme        = litarvan/' /etc/lightdm/lightdm-webkit2-greeter.conf
 
-        # Lighdm max hz
-	    xrandr -q
-	    echo "Enter the connected port, the resolution you would like to use and your monitor's max refresh rate(Like HDMI-0 1920x1080 144):"
-        read port resolution refreshrate
+        # Lightdm max hz
+
+        if [[ "$(xrandr -q)" == "" ]]; then  
+		    echo -e "There is no graphics driver installed or you are in a tty or the DM (Display Manager) service is not running.";                            
+        else
+            echo -e "Graphical Interface Found!"
+	        xrandr -q
+			echo "Enter the port connected, the resolution you want to use, and the maximum refresh rate of your monitor (like HDMI-0 1920x1080 144):"
+            read port resolution refreshrate
         
-		sudo touch /usr/share/lightdmxrandr.sh
-	    sudo cat >> /usr/share/lightdmxrandr.sh <<- _EOF_
+		    sudo touch /usr/share/lightdmxrandr.sh
+	        sudo cat >> /usr/share/lightdmxrandr.sh <<- _EOF_
 #!/bin/sh
 xrandr --output $port --mode $resolution --rate $refreshrate
-_EOF_
+_EOF_                             
+        fi
     fi
     
     # Makepkg
