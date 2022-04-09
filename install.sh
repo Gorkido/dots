@@ -162,7 +162,7 @@ dirs=/home/$username/.local/share/backgrounds;/home/$username/.local/share/backg
 	done
 
     # Icon Theme
-	sudo cp -r $(pwd)/usr/share/icons/Paper-Mono-Dark /usr/share/icons/
+	sudo cp -rf $(pwd)/usr/share/icons/Paper-Mono-Dark $(pwd)/usr/share/icons/Paper /usr/share/icons/
 
 	cat >> $HOME/.gtkrc-2.0 <<- _EOF_
 include "/home/$username/.gtkrc-2.0.mine"
