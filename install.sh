@@ -34,7 +34,7 @@ usage() {
 }
 
 ## Packages
-_pkgs=("zsh" "pcmanfm" "i3-gaps" "polybar" "picom-jonaburg-git" "rofi" "htop" "flameshot" "kitty" "gnome-system-monitor" "i3lock-fancy-git" "nitrogen" "neofetch" "v4l2loopback-dkms" "brave-bin" "virtualbox" "zoom" "spotify" )
+_pkgs=("zsh" "pcmanfm" "i3-gaps" "polybar" "picom-jonaburg-git" "rofi" "htop" "flameshot" "kitty" "gnome-system-monitor" "i3lock-fancy-git" "nitrogen" "neofetch" "v4l2loopback-dkms" "brave-bin" "virtualbox" "zoom" "spotify" "ttf-iosevka-nerd")
 
 ## Setup OMZ
 setup_omz() {
@@ -160,7 +160,7 @@ dirs=/home/$username/.local/share/backgrounds;/home/$username/.local/share/backg
 		echo -e ${CYAN}"\n[*] Copying $_config..."
 		{ reset_color; rm -rf $(pwd)/.git; cp -rf $(pwd)/$_config $HOME; }
 	done
-    
+
     # Icon Theme
 	sudo cp -r $(pwd)/usr/share/icons/Paper-Mono-Dark /usr/share/icons/
 
@@ -192,6 +192,34 @@ file:///home/$username/Videos Videos
 file:///home/$username/Pictures Pictures
 file:///home/$username/Downloads Downloads
 	_EOF_
+    
+	read -r -p "Are you using LightDM as your Display Manager? [Y/n]" response
+    response=${response,,} # tolower
+    if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
+        
+		# Lighdm Theme pkgs
+        pacman -S --noconfirm lightdm-webkit2-greeter lightdm-webkit-theme-litarvan
+
+	    # Lightdm Theme
+        sudo sed -i 's/^greeter-session=.*$/greeter-session=lightdm-webkit2-greeter/' /etc/lightdm/lightdm.conf
+        sudo sed -i 's/^webkit_theme        = .*$/webkit_theme        = litarvan/' /etc/lightdm/lightdm-webkit2-greeter.conf
+
+        # Lighdm max hz
+	    xrandr -q
+	    echo "Enter the connected port, the resolution you would like to use and your monitor's max refresh rate(Like HDMI-0 1920x1080 144):"
+        read port resolution refreshrate
+
+	    cat >> /usr/share/lightdmxrandr.sh<<- _EOF_
+#!/bin/sh
+xrandr --output $port --mode $resolution --rate $refreshrate
+_EOF_
+    fi
+    
+    # Makepkg
+    core=$(nproc --all)
+    result=$(( $core - 2 ))
+    sed -i '/MAKEFLAGS=/s/^#//g' /etc/makepkg.conf
+    sed -i "s/^MAKEFLAGS=.*$/MAKEFLAGS=\"-j$result\"/" /etc/makepkg.conf
 }
 
 # Finish Installation
