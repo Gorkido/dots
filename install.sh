@@ -198,7 +198,7 @@ file:///home/$username/Downloads Downloads
     if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
         
 		# Lighdm Theme pkgs
-        pacman -S --noconfirm lightdm-webkit2-greeter lightdm-webkit-theme-litarvan
+        sudo pacman -S --noconfirm lightdm-webkit2-greeter lightdm-webkit-theme-litarvan
 
 	    # Lightdm Theme
         sudo sed -i 's/^greeter-session=.*$/greeter-session=lightdm-webkit2-greeter/' /etc/lightdm/lightdm.conf
@@ -209,7 +209,7 @@ file:///home/$username/Downloads Downloads
 	    echo "Enter the connected port, the resolution you would like to use and your monitor's max refresh rate(Like HDMI-0 1920x1080 144):"
         read port resolution refreshrate
 
-	    cat >> /usr/share/lightdmxrandr.sh<<- _EOF_
+	    sudo cat >> /usr/share/lightdmxrandr.sh<<- _EOF_
 #!/bin/sh
 xrandr --output $port --mode $resolution --rate $refreshrate
 _EOF_
@@ -218,8 +218,8 @@ _EOF_
     # Makepkg
     core=$(nproc --all)
     result=$(( $core - 2 ))
-    sed -i '/MAKEFLAGS=/s/^#//g' /etc/makepkg.conf
-    sed -i "s/^MAKEFLAGS=.*$/MAKEFLAGS=\"-j$result\"/" /etc/makepkg.conf
+    sudo sed -i '/MAKEFLAGS=/s/^#//g' /etc/makepkg.conf
+    sudo sed -i "s/^MAKEFLAGS=.*$/MAKEFLAGS=\"-j$result\"/" /etc/makepkg.conf
 }
 
 # Finish Installation
