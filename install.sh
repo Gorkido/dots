@@ -185,7 +185,7 @@ gtk-xft-rgba="rgb"
 
     mkdir $HOME/.config/gtk-3.0
 
-	cat >> $HOME/.config/gtk-3.0/bookmarks<<- _EOF_
+	cat >> $HOME/.config/gtk-3.0/bookmarks <<- _EOF_
 file:///home/$username/Documents Documents
 file:///home/$username/Music Music
 file:///home/$username/Videos Videos
@@ -208,8 +208,9 @@ file:///home/$username/Downloads Downloads
 	    xrandr -q
 	    echo "Enter the connected port, the resolution you would like to use and your monitor's max refresh rate(Like HDMI-0 1920x1080 144):"
         read port resolution refreshrate
-
-	    sudo cat >> /usr/share/lightdmxrandr.sh<<- _EOF_
+        
+		sudo touch /usr/share/lightdmxrandr.sh
+	    sudo cat >> /usr/share/lightdmxrandr.sh <<- _EOF_
 #!/bin/sh
 xrandr --output $port --mode $resolution --rate $refreshrate
 _EOF_
